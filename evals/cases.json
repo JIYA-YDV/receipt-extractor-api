@@ -1,0 +1,83 @@
+[
+  {
+    "name": "clean_us_receipt",
+    "input": "STARBUCKS #4521\nGrande Latte      4.75\nBlueberry Muffin  3.50\nTax               0.66\nTotal            $8.91\n2024-03-15",
+    "expected": {
+      "merchant_contains": "STARBUCKS",
+      "total": 8.91,
+      "currency": "USD",
+      "date": "2024-03-15",
+      "needs_review": false
+    }
+  },
+  {
+    "name": "european_format",
+    "input": "Boulangerie Paul\nBaguette   2,50 EUR\nCroissant  1,80 EUR\nTOTAL      4,30 EUR\n14/03/2024",
+    "expected": {
+      "merchant_contains": "Paul",
+      "total": 4.30,
+      "currency": "EUR",
+      "date": "2024-03-14",
+      "needs_review": false
+    }
+  },
+  {
+    "name": "us_slash_date",
+    "input": "Walmart Supercenter\nMilk 1gal    3.99\nBread        2.50\nEggs 12ct    4.29\nTotal        10.78\n01/15/2024",
+    "expected": {
+      "merchant_contains": "Walmart",
+      "total": 10.78,
+      "currency": "USD",
+      "date": "2024-01-15",
+      "needs_review": false
+    }
+  },
+  {
+    "name": "gbp_receipt",
+    "input": "Tesco Metro\nSandwich   £3.50\nCoffee     £2.20\nTotal      £5.70\n2024-02-10",
+    "expected": {
+      "merchant_contains": "Tesco",
+      "total": 5.70,
+      "currency": "GBP",
+      "date": "2024-02-10",
+      "needs_review": false
+    }
+  },
+  {
+    "name": "japanese_receipt",
+    "input": "セブンイレブン\nOnigiri  150\nTea      120\n合計     270 JPY\n2024-04-01",
+    "expected": {
+      "total": 270,
+      "currency": "JPY",
+      "date": "2024-04-01"
+    }
+  },
+  {
+    "name": "ambiguous_partial",
+    "input": "thnx come again!\ntot 12",
+    "expected": {
+      "needs_review": true,
+      "confidence_below": 0.5
+    }
+  },
+  {
+    "name": "not_a_receipt",
+    "input": "hello how are you today this is not a receipt at all just some random text",
+    "expected": {
+      "needs_review": true,
+      "merchant": null,
+      "total": null,
+      "date": null
+    }
+  },
+  {
+    "name": "missing_date",
+    "input": "COSTCO WHOLESALE\nRotisserie Chicken  4.99\nPaper Towels       19.99\nTotal              24.98",
+    "expected": {
+      "merchant_contains": "COSTCO",
+      "total": 24.98,
+      "date": null,
+      "needs_review": true
+    }
+  }
+]
