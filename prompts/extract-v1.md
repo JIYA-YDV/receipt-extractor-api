@@ -39,12 +39,12 @@ STARBUCKS #123
 Latte 4.50
 Muffin 3.25
 Total $7.75
-2024-03-15
+2026-08-30
 ```
 
 Output:
 ```json
-{"merchant":"STARBUCKS #123","total":7.75,"currency":"USD","date":"2024-03-15","items":[{"description":"Latte","amount":4.50},{"description":"Muffin","amount":3.25}],"confidence":0.95,"needs_review":false}
+{"merchant":"STARBUCKS #123","total":7.75,"currency":"USD","date":"2026-08-30","items":[{"description":"Latte","amount":4.50},{"description":"Muffin","amount":3.25}],"confidence":0.95,"needs_review":false}
 ```
 Example 2 — messy / partial receipt
 
@@ -70,12 +70,12 @@ Boulangerie Paul
 Baguette   2,50 €
 Croissant  1,80 €
 TOTAL      4,30 €
-14/03/2024
+30/08/2026
 ```
 
 Output:
 
 ```JSON
 
-{"merchant":"Boulangerie Paul","total":4.30,"currency":"EUR","date":"2024-03-14","items":[{"description":"Baguette","amount":2.50},{"description":"Croissant","amount":1.80}],"confidence":0.9,"needs_review":false}
+{"merchant":"Boulangerie Paul","total":4.30,"currency":"EUR","date":"2026-08-30","items":[{"description":"Baguette","amount":2.50},{"description":"Croissant","amount":1.80}],"confidence":0.9,"needs_review":false}
 ```
