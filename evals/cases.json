@@ -43,9 +43,9 @@
       "needs_review": false
     }
   },
-  {
+    {
     "name": "japanese_receipt",
-    "input": "セブンイレブン\nOnigiri  150\nTea      120\n合計     270 JPY\n2024-04-01",
+    "input": "セブンイレブン\nOnigiri  150\nTea      120\nTotal:   270 JPY\n2024-04-01",
     "expected": {
       "total": 270,
       "currency": "JPY",

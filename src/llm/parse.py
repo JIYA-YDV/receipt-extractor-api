@@ -46,18 +46,19 @@ def extract_first_json_object(text: str) -> Optional[str]:
 
 
 def parse_and_validate(raw: str) -> Tuple[Optional[ExtractOutput], Optional[str]]:
-    """
-    Try to parse and validate raw model text.
-    Returns (parsed_object, None) on success or (None, error_message) on failure.
-    """
     candidate = extract_first_json_object(raw)
     if candidate is None:
         return None, "Response contained no JSON object."
 
     try:
         data = json.loads(candidate)
-    except json.JSONDecodeError as e:
-        return None, f"Invalid JSON: {e.msg} at position {e.pos}"
+    except json.JSONDecodeError:
+        # Fallback: Fix common 1B model missing comma between lines (e.g. '"total": 10.78\n"date"')
+        fixed_candidate = re.sub(r'([0-9]|"|true|false|null|\]|\})\s*\n\s*"', r'\1,\n"', candidate)
+        try:
+            data = json.loads(fixed_candidate)
+        except json.JSONDecodeError as e:
+            return None, f"Invalid JSON: {e.msg} at position {e.pos}"
 
     try:
         return ExtractOutput.model_validate(data), None
