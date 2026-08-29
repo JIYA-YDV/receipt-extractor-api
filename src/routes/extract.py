@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 from src.llm.schema import ExtractOutput, Currency
 from src.llm.call import extract_with_llm
+from openai import APITimeoutError, APIConnectionError
 
 router = APIRouter()
 
@@ -34,12 +35,20 @@ async def extract(payload: ExtractInput) -> ExtractOutput:
     try:
         result, _repair_count = extract_with_llm(payload.text)
         return result
+    except (APITimeoutError, APIConnectionError) as e:
+        raise HTTPException(
+            status_code=504,
+            detail={
+                "error": "model_timeout",
+                "message": "The model did not respond in time.",
+            },
+        )
     except ValueError as e:
         raise HTTPException(
             status_code=422,
             detail={
                 "error": "model_output_invalid",
                 "message": str(e),
-                "hint": "The model produced output that could not be validated after one repair attempt. See logs/quarantine.jsonl.",
+                "hint": "See logs/quarantine.jsonl.",
             },
         )
