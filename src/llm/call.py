@@ -10,7 +10,7 @@ from src.llm.cost_log import log_call
 from src.llm.retry import call_with_retry
 from src.llm.schema import ExtractOutput, Currency
 from decimal import Decimal
-
+from src.llm.sanitize import wrap_untrusted
 
 def _fallback_response() -> ExtractOutput:
     """Returned when LLM_ENABLED=false. Deterministic, always safe."""
@@ -74,7 +74,7 @@ def extract_with_llm(user_text: str) -> Tuple[ExtractOutput, int]:
     # Attempt 1
     messages = [
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_text},
+        {"role": "user", "content": wrap_untrusted(user_text)},
     ]
     raw, in1, out1 = _call_model_once(messages)
     total_in += in1
